@@ -14,7 +14,7 @@ from sentinel.common.metrics import latest
 repo = Repository()
 state = SharedState(repo=repo)
 bus = BusFactory.from_env()
-DetectionEngine
+detection = DetectionEngine(bus, state, sensor_id="sensor-1")
 investigator = InvestigationAgent(bus, state)
 responder = ResponseEngine(bus, state)
 
