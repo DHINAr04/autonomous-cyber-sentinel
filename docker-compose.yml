@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    image: autonomous-cyber-sentinel:latest
+    environment:
+      - BUS=redis
+      - REDIS_URL=redis://redis:6379/0
+      - SENTINEL_DB=sqlite:///data/sentinel.db
+      - OFFLINE=1
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - lan
+      - honeypot
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - lan
+
+  honeypot:
+    image: nginx:alpine
+    networks:
+      - honeypot
+
+networks:
+  lan:
+  honeypot:
